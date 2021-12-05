@@ -1,5 +1,9 @@
+-- Formula to calculate the distance between the mouse and the circle's center when clicking
+
 export distanceBetween = (x1, y1, x2, y2) ->
 	return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
+
+-- Runs when the game first loads
 
 love.load =->
 
@@ -32,13 +36,20 @@ love.draw =->
 		.setFont(gameFont)
 		.print(score, 0, 0)
 
+-- Did the user click the left mouse button? If so, run the code below.
+
 love.mousepressed = (x, y, button, istouch, presses) ->
 	if (button == 1) then
 		mouseToTarget = distanceBetween(x, y, target.x, target.y)
 
+		-- Is the distance between the mouse cursor and the circle center smaller than the circle radius?
+
 		if (mouseToTarget < target.radius) then
 			export score = score + 1
 			with target
+
+				-- Random x / y value between 0 and the difference of the screen width / height and the circle radius
+
 				.x = math.random(0 + .radius, love.graphics.getWidth! - .radius) 
 				.y = math.random(0 + .radius, love.graphics.getHeight! - .radius) 
 
