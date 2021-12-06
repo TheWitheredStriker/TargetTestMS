@@ -3,6 +3,10 @@
 export distanceBetween = (x1, y1, x2, y2) ->
 	return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
 
+-- Set game window title
+
+love.window.setTitle("Target Test ~ by Wither")
+
 -- Runs when the game first loads
 
 love.load =->
