@@ -3,6 +3,17 @@
 export distanceBetween = (x1, y1, x2, y2) ->
 	return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
 
+-- Function to move the circle elsewhere
+
+export moveCircle =->
+
+	with target
+
+		-- Random x / y value between 0 and the difference of the screen width / height and the circle radius
+
+		.x = math.random(0 + .radius, love.graphics.getWidth! - .radius) 
+		.y = math.random(0 + .radius, love.graphics.getHeight! - .radius) 
+
 -- Set game window title
 
 love.window.setTitle("Target Test ~ by Wither")
@@ -21,8 +32,16 @@ love.load =->
 	
 	timer, score = 0, 0
 	gameFont     = love.graphics.newFont(40) 
+	countdown    = 1.5
 
-love.update = (dt) ->
+-- Run and update block of code after the game's initial load
+
+love.update = (dt) -> 
+	export countdown = countdown - dt
+
+	if countdown <= 0 then
+		moveCircle!
+		export countdown = 1.5 -- Without this line of code to reset the countdown, the circle would fly all over the screen
 
 -- Important note: y increases DOWNWARDS in Löve, NOT upwards
 
@@ -50,11 +69,7 @@ love.mousepressed = (x, y, button, istouch, presses) ->
 
 		if (mouseToTarget < target.radius) then
 			export score = score + 1
-			with target
-
-				-- Random x / y value between 0 and the difference of the screen width / height and the circle radius
-
-				.x = math.random(0 + .radius, love.graphics.getWidth! - .radius) 
-				.y = math.random(0 + .radius, love.graphics.getHeight! - .radius) 
+			export countdown = 1.5 -- Reset countdown whenever you successfully click the circle
+			moveCircle!
 
 	
